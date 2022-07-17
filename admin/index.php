@@ -12,13 +12,14 @@ $articles = Article::getAll($conn);
 
 
 <h2>Administration</h2>
+<li><a href="/admin/new-article.php">New</a></li>
 <?php if (empty($articles)) : ?>
 <p>No articles found.</p>
 <?php else : ?>
 
 <table>
     <thead>
-        <th>title</th>
+        <th>Title</th>
     </thead>
 
     <tbody>
