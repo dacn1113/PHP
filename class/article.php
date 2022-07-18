@@ -218,4 +218,8 @@ class Article
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    public static function getTotal($conn)
+    {
+        return $conn->query('SELECT COUNT(*) FROM artice')->fetchColumn();
+    }
 }
