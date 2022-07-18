@@ -12,7 +12,7 @@ class Article
      * @var integer
      */
     public $id;
-
+    public $image_file;
     /**
      * The article title
      * @var string
@@ -221,5 +221,19 @@ class Article
     public static function getTotal($conn)
     {
         return $conn->query('SELECT COUNT(*) FROM artice')->fetchColumn();
+    }
+
+    public function setImageFile($conn, $filename)
+    {
+        $sql = "UPDATE  artice
+                SET image_file = :image_file
+                WHERE id=:id";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
+        $stmt->bindValue(':image_file', $filename, PDO::PARAM_STR);
+
+        return $stmt->execute();
     }
 }

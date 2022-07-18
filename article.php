@@ -16,6 +16,9 @@ if (isset($_GET['id'])) {
 <?php if ($article) : ?>
 
 <article>
+    <?php if ($article->image_file) : ?>
+    <img src="/upload/<?= $article->image_file; ?>">
+    <?php endif; ?>
     <h2><?= htmlspecialchars($article->title); ?></h2>
     <p><?= htmlspecialchars($article->content); ?></p>
 </article>
