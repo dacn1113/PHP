@@ -34,7 +34,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($_FILES['file']['size'] > 1000000) {
             throw new Exception('File is too large');
         }
-        $mime_types = ['image/gif', 'image/png', 'image/jped'];
+        $mime_types = ['image/gif', 'image/png', 'image/jped', 'image/jpg'];
+
         if (!in_array($_FILES['file']['type'], $mime_types)) {
             throw new Exception('Invalid file type');
         }
@@ -54,8 +55,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         if (move_uploaded_file($_FILES['file']['tmp_name'], $destination)) {
+            $previou_image = $article->image_file;
             if ($article->setImageFile($conn, $filename)) {
-                Url::redirect("/admin/article.php?id={$article->id}");
+
+                if ($previou_image) {
+                    unlink("../upload/$previou_image");
+                }
+                Url::redirect("/admin/edit-article-image.php?id={$article->id}");
             }
         } else {
             throw new Exception('Unable to move uploaded file');
@@ -69,7 +75,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <?php require '../includes/header.php'; ?>
 
 <h2>Edit article image</h2>
-
+<?php if ($article->image_file) : ?>
+<img src="/upload/<?= $article->image_file; ?>">
+<a href="delete-image.php?id=<?= $article->id; ?>">Delete</a>
+<?php endif; ?>
 <form method="post" enctype="multipart/form-data">
     <div>
         <label for="file">Image file</label>

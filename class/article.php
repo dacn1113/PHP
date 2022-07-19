@@ -232,8 +232,20 @@ class Article
         $stmt = $conn->prepare($sql);
 
         $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
-        $stmt->bindValue(':image_file', $filename, PDO::PARAM_STR);
+        $stmt->bindValue(':image_file', $filename, $filename == null ? PDO::PARAM_NULL : PDO::PARAM_STR);
 
         return $stmt->execute();
+    }
+    public static function getWihtCategories($conn, $id)
+    {
+        $sql = "SELECT artice.*,category.name AS category_name FROM artice JOIN article_category 
+        ON artice.id = article_category.article_id JOIN category 
+        ON article_category.category_id = category.id";
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }

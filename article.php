@@ -1,11 +1,10 @@
 <?php
-
 require 'includes/init.php';
-Auth::requirelogin();
+
 $conn = require 'includes/db.php';
 
 if (isset($_GET['id'])) {
-    $article = Article::getByID($conn, $_GET['id']);
+    $article = Article::getWihtCategories($conn, $_GET['id']);
 } else {
     $article = null;
 }
@@ -16,15 +15,24 @@ if (isset($_GET['id'])) {
 <?php if ($article) : ?>
 
 <article>
-    <?php if ($article->image_file) : ?>
-    <img src="/upload/<?= $article->image_file; ?>">
+    <h2><?= htmlspecialchars($article[0]['title']); ?></h2>
+
+    <?php if ($article[0]['category_name']) : ?>
+    <p>Categories:
+        <?php foreach ($article as $a) : ?>
+        <?= htmlspecialchars($a['category_name']); ?>
+        <?php endforeach; ?>
+    </p>
+    <? endif; ?>
+
+    <?php if ($article[0]['image_file']) : ?>
+    <img src="/upload/<?= $article[0]['image_file']; ?>">
     <?php endif; ?>
-    <h2><?= htmlspecialchars($article->title); ?></h2>
-    <p><?= htmlspecialchars($article->content); ?></p>
+
+    <p><?= htmlspecialchars($article[0]['content']); ?></p>
 </article>
 
 <?php else : ?>
 <p>Article not found.</p>
 <?php endif; ?>
-
 <?php require 'includes/footer.php'; ?>
