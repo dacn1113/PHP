@@ -4,7 +4,7 @@ require 'includes/init.php';
 $conn = require 'includes/db.php';
 
 if (isset($_GET['id'])) {
-    $article = Article::getWihtCategories($conn, $_GET['id']);
+    $article = Article::getWithCategories($conn, $_GET['id']);
 } else {
     $article = null;
 }
@@ -23,7 +23,7 @@ if (isset($_GET['id'])) {
         <?= htmlspecialchars($a['category_name']); ?>
         <?php endforeach; ?>
     </p>
-    <? endif; ?>
+    <?php endif; ?>
 
     <?php if ($article[0]['image_file']) : ?>
     <img src="/upload/<?= $article[0]['image_file']; ?>">

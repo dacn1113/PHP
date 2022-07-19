@@ -12,6 +12,7 @@ class Article
      * @var integer
      */
     public $id;
+
     public $image_file;
     /**
      * The article title
@@ -236,11 +237,12 @@ class Article
 
         return $stmt->execute();
     }
-    public static function getWihtCategories($conn, $id)
+    public static function getWithCategories($conn, $id)
     {
         $sql = "SELECT artice.*,category.name AS category_name FROM artice JOIN article_category 
         ON artice.id = article_category.article_id JOIN category 
-        ON article_category.category_id = category.id";
+        ON article_category.category_id = category.id
+        WHERE artice.id = :id";
         $stmt = $conn->prepare($sql);
 
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
