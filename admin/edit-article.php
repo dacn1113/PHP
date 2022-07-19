@@ -4,6 +4,7 @@ require '../includes/init.php';
 Auth::requirelogin();
 $conn = require '../includes/db.php';
 
+
 if (isset($_GET['id'])) {
 
     $article = Article::getByID($conn, $_GET['id']);
@@ -14,6 +15,7 @@ if (isset($_GET['id'])) {
 } else {
     die("id not supplied, article not found");
 }
+$categories = Category::getAll($conn);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
