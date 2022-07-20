@@ -229,9 +229,11 @@ class Article
                 LIMIT :limit
                 OFFSET : offset) AS a
                 LEFT JOIN article_category 
-                ON a.id = artilce_category.article_id
+                ON a.id = article_category.article_id
                 LEFT JOIN category
                 ON article_category.category_id = category.id";
+
+
 
         $stmt = $conn->prepare($sql);
 
