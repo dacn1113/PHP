@@ -227,8 +227,8 @@ class Article
                 FROM artice
                 ORDER BY published_at
                 LIMIT :limit
-                OFFSET : offset) AS a
-                LEFT JOIN article_category 
+                OFFSET :offset) AS a
+                LEFT JOIN article_category
                 ON a.id = article_category.article_id
                 LEFT JOIN category
                 ON article_category.category_id = category.id";
