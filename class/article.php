@@ -222,9 +222,9 @@ class Article
     }
     public static function getPage($conn, $limit, $offset)
     {
-        $sql = "SELECT a.*,category.name AS category_name
-                FROM ( SELECT * 
-                FROM artice 
+        $sql = "SELECT a.*, category.name AS category_name
+                FROM (SELECT *
+                FROM artice
                 ORDER BY published_at
                 LIMIT :limit
                 OFFSET : offset) AS a
