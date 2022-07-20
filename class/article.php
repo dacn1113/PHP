@@ -242,7 +242,28 @@ class Article
 
         $stmt->execute();
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $results = $stmt->fetchall(PDO::FETCH_ASSOC);
+        $articles = [];
+
+        $previous_id = null;
+
+        foreach ($results as $row) {
+
+            $article_id = $row['id'];
+
+            if ($article_id != $previous_id) {
+                $row['category_names'] = [];
+
+                $articles[$article_id] = $row;
+            }
+
+            $articles[$article_id]['category_names'][] = $row['category_name'];
+
+            $previous_id = $article_id;
+        }
+
+        return $articles;
     }
     public static function getTotal($conn)
     {

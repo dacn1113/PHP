@@ -20,7 +20,13 @@ $articles = Article::getPage($conn, $paginator->limit, $paginator->offset);
     <li>
         <article>
             <h2><a href="article.php?id=<?= $article['id']; ?>"><?= htmlspecialchars($article['title']); ?></a></h2>
-            <p><?= htmlspecialchars($article['category_name']); ?></p>
+            <?php if ($article['category_names']) : ?>
+            <p> Cathegory:
+                <?php foreach ($article['category_names'] as $name) : ?>
+                <?= htmlspecialchars($name); ?>
+                <?php endforeach; ?>
+            </p>
+            <?php endif; ?>
             <p><?= htmlspecialchars($article['content']); ?></p>
         </article>
     </li>
