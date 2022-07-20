@@ -222,11 +222,16 @@ class Article
     }
     public static function getPage($conn, $limit, $offset)
     {
-        $sql = "SELECT *
-                FROM artice
+        $sql = "SELECT a.*,category.name AS category_name
+                FROM ( SELECT * 
+                FROM artice 
                 ORDER BY published_at
                 LIMIT :limit
-                OFFSET :offset";
+                OFFSET : offset) AS a
+                LEFT JOIN article_category 
+                ON a.id = artilce_category.article_id
+                LEFT JOIN category
+                ON article_category.category_id = category.id";
 
         $stmt = $conn->prepare($sql);
 

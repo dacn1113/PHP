@@ -20,6 +20,7 @@ $articles = Article::getPage($conn, $paginator->limit, $paginator->offset);
     <li>
         <article>
             <h2><a href="article.php?id=<?= $article['id']; ?>"><?= htmlspecialchars($article['title']); ?></a></h2>
+            <p><?= htmlspecialchars($article['category_name']); ?></p>
             <p><?= htmlspecialchars($article['content']); ?></p>
         </article>
     </li>
