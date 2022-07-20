@@ -116,7 +116,25 @@ class Article
             return false;
         }
     }
+    public function setCategories($conn, $ids)
+    {
+        if ($ids) {
+            $sql = "INSERT IGNORE INTO article_category (article_id,category_id) VALUES ";
+            $value = [];
+            foreach ($ids as $id) {
+                $value[] = "({$this->id},?)";
+            }
+            $sql .= implode(",", $value);
 
+            $stmt = $conn->prepare($sql);
+
+            foreach ($ids as $i => $id) {
+                $stmt->bindValue($i + 1, $id, PDO::PARAM_INT);
+            }
+
+            $stmt->execute();
+        }
+    }
     /**
      * Validate the properties, putting any validation error messages in the $errors property
      *
@@ -243,6 +261,7 @@ class Article
         ON artice.id = article_category.article_id JOIN category 
         ON article_category.category_id = category.id
         WHERE artice.id = :id";
+
         $stmt = $conn->prepare($sql);
 
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
